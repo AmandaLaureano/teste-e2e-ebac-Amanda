@@ -1,0 +1,767 @@
+{
+	"info": {
+		"_postman_id": "a464714b-a8b6-4357-8507-4bc32b4d78bc",
+		"name": "Testes Serverest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34956432"
+	},
+	"item": [
+		{
+			"name": "Produtos",
+			"item": [
+				{
+					"name": "Listar produtos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar produto da lista\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Samsung 60 polegadas\");",
+									"});",
+									"pm.test(\"Status code é 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverestqa}}/produtos",
+							"host": [
+								"{{serverestqa}}"
+							],
+							"path": [
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar produto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Iphone 15 pro max\",\n  \"preco\": 5000,\n  \"descricao\": \"8gb de ram\",\n  \"quantidade\": 500\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverestqa}}/produtos",
+							"host": [
+								"{{serverestqa}}"
+							],
+							"path": [
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar produto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Samsung 60 polegadas 4K Full HD\",\n  \"preco\": 4000,\n  \"descricao\": \"TV Smart\",\n  \"quantidade\": 500\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverestqa}}/produtos/K6leHdftCeOJj8BJ",
+							"host": [
+								"{{serverestqa}}"
+							],
+							"path": [
+								"produtos",
+								"K6leHdftCeOJj8BJ"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar produto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar mensagem\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Registro excluído com sucesso\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFtYW5kYWxhdXJlYW5vNEBnbWFpbC5jb20iLCJwYXNzd29yZCI6InRlc3RlIiwiaWF0IjoxNzM2NTE4MTg0LCJleHAiOjE3MzY1MTg3ODR9.isaTmGummAaBGqRXZOburQ_GKNE55nDGfr1MUa8h4Is",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{serverestqa}}/produtos/3H10YGWtn2vIwMuJ",
+							"host": [
+								"{{serverestqa}}"
+							],
+							"path": [
+								"produtos",
+								"3H10YGWtn2vIwMuJ"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cenarios rota usuarios",
+			"item": [
+				{
+					"name": "Listar usuários",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code deve retornar 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Deve conter as keys quantidade, usuarios\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"quantidade\", \"usuarios\");",
+									"});",
+									"",
+									"pm.test(\"Deve conter a quantidade de usuarios esperada\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var quantidade = jsonData.quantidade",
+									"    pm.expect(quantidade).to.eql(5);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{serverestqa}}/usuarios",
+							"host": [
+								"{{serverestqa}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastro usuario sucesso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code deve retornar 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Deve retornar mensagem de sucesso ao cadastrar\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Cadastro realizado com sucesso\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Vitor da silva Souza\",\n  \"email\": \"vitorsilvatesteebac2@gmail.com\",\n  \"password\": \"teste4\",\n  \"administrador\": \"true\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverestqa}}/usuarios",
+							"host": [
+								"{{serverestqa}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastro usuario falha",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code deve retornar 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Deve retornar mensagem de falha ao cadastrar\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Este email já está sendo usado\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Amanda Maria\",\n  \"email\": \"amandalaureano4@gmail.com\",\n  \"password\": \"teste\",\n  \"administrador\": \"true\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverestqa}}/usuarios",
+							"host": [
+								"{{serverestqa}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Busca usuario por ID sucesso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code deve retornar 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Deve conter as keys nome, email, password, administrador e _id no corpo da resposta\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"nome\", \"email\", \"password\", \"administrador\", \"_id\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{serverestqa}}/usuarios/0uxuPY0cbmQhpEz1",
+							"host": [
+								"{{serverestqa}}"
+							],
+							"path": [
+								"usuarios",
+								"0uxuPY0cbmQhpEz1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Busca usuario por ID falha",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code deve retornar 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Deve retornar mensagem de falha na busca pelo usuario especifico\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Usuário não encontrado\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{serverestqa}}/usuarios/idteste",
+							"host": [
+								"{{serverestqa}}"
+							],
+							"path": [
+								"usuarios",
+								"idteste"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir usuario sucesso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code deve retornar 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Deve retornar mensagem de sucesso ao excluir usuario\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Registro excluído com sucesso\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"packages": {},
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverestqa}}/usuarios/9RCUSebS6EwJ7VjP",
+							"host": [
+								"{{serverestqa}}"
+							],
+							"path": [
+								"usuarios",
+								"9RCUSebS6EwJ7VjP"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir usuario sucesso 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code deve retornar 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Deve retornar segunda mensagem ao excluir usuario\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Nenhum registro excluído\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{serverestqa}}/usuarios/kJvukJbUZfOgGlLC",
+							"host": [
+								"{{serverestqa}}"
+							],
+							"path": [
+								"usuarios",
+								"kJvukJbUZfOgGlLC"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir usuario falha",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code deve retornar 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Deve retornar mensagem de falha ao excluir usuario com carrinho cadastrado\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Não é permitido excluir usuário com carrinho cadastrado\");",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"message\", \"idCarrinho\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{serverestqa}}/usuarios/0uxuPY0cbmQhpEz1",
+							"host": [
+								"{{serverestqa}}"
+							],
+							"path": [
+								"usuarios",
+								"0uxuPY0cbmQhpEz1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar usuario sucesso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code deve retornar 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Deve retornar mensagem de sucesso ao editar usuario\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Registro alterado com sucesso\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Vitor da Silva Souza\",\n    \"email\": \"vitorsilvatesteebac@gmail.com\",\n    \"password\": \"teste4\",\n    \"administrador\": \"true\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverestqa}}/usuarios/FqfMAh1Nfd4V3L53",
+							"host": [
+								"{{serverestqa}}"
+							],
+							"path": [
+								"usuarios",
+								"FqfMAh1Nfd4V3L53"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar usuario falha",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code deve retornar 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Deve retornar mensagem de erro alegando e-mail digitado já está em uso\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Este email já está sendo usado\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Fulano da Silva Souza\",\n  \"email\": \"amandalaureano4@gmail.com\",\n  \"password\": \"teste\",\n  \"administrador\": \"true\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverestqa}}/usuarios/idteste2",
+							"host": [
+								"{{serverestqa}}"
+							],
+							"path": [
+								"usuarios",
+								"idteste2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastro sucesso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code deve retornar 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Deve retornar mensagem de cadastro com sucesso\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Cadastro realizado com sucesso\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Mariano da Silva Souza\",\n  \"email\": \"marianosouzatesteebac@gmail.com.br\",\n  \"password\": \"teste5\",\n  \"administrador\": \"true\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverestqa}}/usuarios/isdtestee",
+							"host": [
+								"{{serverestqa}}"
+							],
+							"path": [
+								"usuarios",
+								"isdtestee"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login usuário",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const resposta = pm.response.json();",
+							"pm.globals.set(\"token\", resposta.authorization);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"amandalaureano4@gmail.com\",\n    \"password\": \"teste\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{serverestqa}}/login",
+					"host": [
+						"{{serverestqa}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Setup') {
+            steps {
+                git branch: 'main', url: 'https://github.com/AmandaLaureano/teste-e2e-ebac-Amanda.git'
+                sh 'npm install'
+            }
+        }
+         stage('Test') {
+            steps {
+                sh '''
+                export NO_COLOR=1
+                export FORCE_COLOR=0
+                npm test
+                '''
+            }
+        }
+    }
+}
